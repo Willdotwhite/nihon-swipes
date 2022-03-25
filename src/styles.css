@@ -75,3 +75,7 @@ body {
   font-size: 1.5rem;
   margin-bottom: 0;
 }
+
+.card .card-option {
+  font-size: 1.25rem;
+}

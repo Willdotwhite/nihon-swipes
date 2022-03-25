@@ -1,7 +1,7 @@
 import React from 'react'
 import {animated, interpolate} from "react-spring";
-import { Option } from "./Option";
-import {KanjiMeaning} from "./faces/KanjiMeaning";
+import { KanjiMeaning } from "./faces/KanjiMeaning";
+import { FuriganaToKanji } from "./faces/FuriganaToKanji";
 
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
@@ -48,6 +48,7 @@ export const Card = ({testMode, handler, rotation, scale}) => {
             <animated.div {...handler} style={{ transform: interpolate([rotation, scale], trans) }}>
                 <div className="card">
                     {testMode === "kanji-meaning" && <KanjiMeaning card={card} randomCard={randomCard} side={randomSide} /> }
+                    {testMode === "furigana-to-kanji" && <FuriganaToKanji card={card} randomCard={randomCard} side={randomSide} /> }
                 </div>
             </animated.div>
 

@@ -5,6 +5,7 @@ export const Main = () => {
 
     const testModes = [
         "kanji-meaning",
+        "furigana-to-kanji"
     ]
 
     const [testMode, setTestMode] = useState(testModes[0])
