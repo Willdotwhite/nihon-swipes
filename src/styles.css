@@ -53,7 +53,7 @@ body {
 /**** Menu styling ****/
 .player-menu {
   height: 64px!important;
-  background-color: white;
+  background-color: black;
   z-index: 200;
 }
 
@@ -61,6 +61,10 @@ body {
   margin: 0 12px;
   padding: 12px 12px;
   font-size: 0.65rem;
+
+  border-radius: 6px;
+  border-color: #d4af37;
+  background-color: #d4af37;
 }
 
 /**** Card-specific styling ****/
