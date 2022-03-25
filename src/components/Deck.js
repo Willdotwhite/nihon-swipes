@@ -13,14 +13,14 @@ export const Deck = ({testMode, cardData}) => {
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, set] = useSprings(numberOfCards, (i) => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-    const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+    const bind = useDrag(({ args: [index, correctSide], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
         const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
         const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
 
         // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
         if (!down && trigger) {
             gone.add(index)
-            cardWasSwiped(index, dir === -1 ? "left" : "right")
+            cardWasSwiped(index, dir === -1 ? "left" : "right", correctSide)
         }
 
         set((i) => {
@@ -34,14 +34,25 @@ export const Deck = ({testMode, cardData}) => {
         if (!down && gone.size === numberOfCards) setTimeout(() => gone.clear() || set((i) => to(i)), 600)
     })
 
-    const cardWasSwiped = (index, dir) => {
-        console.log(index + " swiped " + dir)
+    const cardWasSwiped = (index, dir, correctSide) => {
+        const wasCorrect = dir === correctSide
+        const classFlashName = wasCorrect ? "correct-flash" : "incorrect-flash"
+        document.getElementById("root").classList.add(classFlashName)
+        setTimeout(() => document.getElementById("root").classList.remove(classFlashName), 300)
     }
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-    return props.map(({ x, y, rot, scale }, i) => (
-        <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-            <Card testMode={testMode} cardData={cardData} handler={bind(i)} rotation={rot} scale={scale} />
-        </animated.div>
-    ))
+    return props.map(({ x, y, rot, scale }, i) => {
+        const randomInt = Math.floor(Math.random() * cardData.length)
+        const correctSide = Math.round(Math.random() * 100) % 2 === 0 ? "left" : "right"
+        const card = cardData[randomInt]
+
+        const randomCard = cardData[randomInt + 1 >= cardData.length ? 0 : randomInt + 1]
+
+        return (
+            <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
+                <Card testMode={testMode} card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, correctSide)} rotation={rot} scale={scale} />
+            </animated.div>
+        )
+    })
 }

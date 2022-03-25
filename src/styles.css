@@ -26,6 +26,14 @@ body {
   color: #d4af37;
 }
 
+#root.correct-flash {
+  background: darkgreen;
+}
+
+#root.incorrect-flash {
+  background: darkred;
+}
+
 #root > div {
   position: absolute;
   width: 100vw;
