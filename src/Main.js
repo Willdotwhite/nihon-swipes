@@ -5,22 +5,26 @@ import { WordTypePicker } from "./components/WordTypePicker";
 
 import { default as adjectives } from "./cards/adjectives";
 import { default as verbs } from "./cards/verbs";
+import {CardItem} from "./cards/CardItem";
 
 
 export const Main = () => {
 
     const testModes = [
         {
-            id: "kanji-meaning",
+            id: "kanji-meaning", // TODO: rename to jp-meaning or something
             title: "行く ➡ 'To Go'",
+            kanjiRequired: false,
         },
         {
             id: "furigana-to-kanji",
             title: "いく ➡ 行く",
+            kanjiRequired: true,
         },
         {
-            id: "english-to-kanji",
+            id: "english-to-kanji", // TODO: rename
             title: "'To Go' ➡ 行く",
+            kanjiRequired: false,
         }
     ]
 
@@ -36,14 +40,16 @@ export const Main = () => {
     ]
 
     const words = {
-        "adjectives": adjectives,
-        "verbs": verbs,
+        "adjectives": CardItem.fromArray(adjectives),
+        "verbs": CardItem.fromArray(verbs),
     }
 
     const [testMode, setTestMode] = useState(testModes[0])
     const [wordType, setWordType] = useState(wordTypes[0])
 
-    const cardData = words[wordType.id];
+    const cardData = testMode.kanjiRequired
+        ? words[wordType.id].filter(word => word.hasKanji())
+        : words[wordType.id];
 
     return (
         <>

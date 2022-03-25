@@ -75,7 +75,7 @@ export default [
     {kanji: "鳴く", furigana: "なく", romaji: "naku", meaning: "to sing, mew, moo"},
     {kanji: "並ぶ", furigana: "ならぶ", romaji: "narabu", meaning: "to form a line"},
     {kanji: "並べる", furigana: "ならべる", romaji: "naraberu", meaning: "to line up"},
-    {kanji: "なる", furigana: "naru", romaji: "to", meaning: "become"},
+    {kanji: "-", furigana: "なる", romaji: "naru", meaning: "to become"},
     {kanji: "脱ぐ", furigana: "ぬぐ", romaji: "nugu", meaning: "to take off clothes"},
     {kanji: "寝る", furigana: "ねる", romaji: "neru", meaning: "to sleep"},
     {kanji: "登る", furigana: "のぼる", romaji: "noboru", meaning: "to climb up"},
