@@ -16,7 +16,13 @@ export const Deck = ({testMode, cardData}) => {
     const bind = useDrag(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
         const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
         const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
-        if (!down && trigger) gone.add(index) // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+
+        // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+        if (!down && trigger) {
+            gone.add(index)
+            cardWasSwiped(index, dir === -1 ? "left" : "right")
+        }
+
         set((i) => {
             if (index !== i) return // We're only interested in changing spring-data for the current spring
             const isGone = gone.has(index)
@@ -27,6 +33,11 @@ export const Deck = ({testMode, cardData}) => {
         })
         if (!down && gone.size === numberOfCards) setTimeout(() => gone.clear() || set((i) => to(i)), 600)
     })
+
+    const cardWasSwiped = (index, dir) => {
+        console.log(index + " swiped " + dir)
+    }
+
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
