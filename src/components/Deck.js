@@ -9,7 +9,7 @@ const numberOfCards = 10
 const to = (i) => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 
-export const Deck = ({testMode}) => {
+export const Deck = ({testMode, cardData}) => {
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, set] = useSprings(numberOfCards, (i) => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
@@ -30,7 +30,7 @@ export const Deck = ({testMode}) => {
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-            <Card testMode={testMode} handler={bind(i)} rotation={rot} scale={scale} isTop={(i) => i === gone.size} />
+            <Card testMode={testMode} cardData={cardData} handler={bind(i)} rotation={rot} scale={scale} isTop={(i) => i === gone.size} />
         </animated.div>
     ))
 }

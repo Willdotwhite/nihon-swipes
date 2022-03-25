@@ -7,40 +7,12 @@ import { EnglishToKanji } from "./faces/EnglishToKanji";
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-const cardData = [
-    {
-        "kanji": "会う",
-        "furigana": "あう",
-        "romaji": "au",
-        "meaning": "to meet"
-    },
-    {
-        "kanji": "遊ぶ",
-        "furigana": "あそぶ",
-        "romaji": "asobu",
-        "meaning": "to play",
-    },
-    {
-        "kanji": "行く",
-        "furigana": "いく",
-        "romaji": "iki",
-        "meaning": "to go",
-    },
-    {
-        "kanji": "売る",
-        "furigana": "うる",
-        "romaji": "uru",
-        "meaning": "to sell",
-    }
-];
-
-export const Card = ({testMode, handler, rotation, scale}) => {
+export const Card = ({testMode, cardData, handler, rotation, scale}) => {
     const randomInt = Math.floor(Math.random() * cardData.length)
     const randomSide = Math.round(Math.random() * 100) % 2 === 0 ? "left" : "right"
     const card = cardData[randomInt]
 
     const randomCard = cardData[randomInt + 1 >= cardData.length ? 0 : randomInt + 1]
-    console.log("WPW", testMode)
 
     return (
         <>

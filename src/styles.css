@@ -51,13 +51,13 @@ body {
 }
 
 /**** Menu styling ****/
-.test-mode-picker {
+.player-menu {
   height: 64px!important;
   background-color: white;
   z-index: 200;
 }
 
-.test-mode-picker > button {
+.player-menu > button {
   margin: 0 12px;
   padding: 12px 12px;
   font-size: 0.65rem;
