@@ -50,6 +50,17 @@ body {
   box-shadow: 0 12.5px 175px -10px rgba(10, 10, 33, 0.5), 0 10px 10px -10px rgba(40, 40, 63, 0.3);
 }
 
+/**** Menu styling ****/
+.test-mode-picker {
+  height: 64px!important;
+  background-color: white;
+  z-index: 200;
+}
+
+.test-mode-picker > button {
+  margin: 0 20px;
+  padding: 10px 30px;
+}
 
 /**** Card-specific styling ****/
 .card {

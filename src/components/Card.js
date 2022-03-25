@@ -39,7 +39,7 @@ export const Card = ({testMode, handler, rotation, scale}) => {
     const card = cardData[randomInt]
 
     const randomCard = cardData[randomInt + 1 >= cardData.length ? 0 : randomInt + 1]
-    console.log(randomInt, randomSide, card === randomCard, randomInt + 1 > cardData.length, card , randomCard)
+    console.log("WPW", testMode)
 
     return (
         <>
@@ -47,8 +47,8 @@ export const Card = ({testMode, handler, rotation, scale}) => {
             {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
             <animated.div {...handler} style={{ transform: interpolate([rotation, scale], trans) }}>
                 <div className="card">
-                    {testMode === "kanji-meaning" && <KanjiMeaning card={card} randomCard={randomCard} side={randomSide} /> }
-                    {testMode === "furigana-to-kanji" && <FuriganaToKanji card={card} randomCard={randomCard} side={randomSide} /> }
+                    {testMode.id === "kanji-meaning" && <KanjiMeaning card={card} randomCard={randomCard} side={randomSide} /> }
+                    {testMode.id === "furigana-to-kanji" && <FuriganaToKanji card={card} randomCard={randomCard} side={randomSide} /> }
                 </div>
             </animated.div>
 
