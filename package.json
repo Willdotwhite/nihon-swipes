@@ -1,0 +1,9 @@
+{
+  "name": "nihon-swipes",
+  "version": "1.0.0",
+  "description": "Simple swiping game to learn Japanese!",
+  "main": "index.js",
+  "author": "WillDotWhite",
+  "license": "MIT",
+  "private": true
+}
