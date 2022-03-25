@@ -30,7 +30,7 @@ export const Deck = ({testMode, cardData}) => {
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-            <Card testMode={testMode} cardData={cardData} handler={bind(i)} rotation={rot} scale={scale} isTop={(i) => i === gone.size} />
+            <Card testMode={testMode} cardData={cardData} handler={bind(i)} rotation={rot} scale={scale} />
         </animated.div>
     ))
 }
