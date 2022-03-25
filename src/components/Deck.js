@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useReducer, useState} from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
 import { Card } from "./Card";
@@ -9,7 +9,21 @@ const numberOfCards = 10
 const to = (i) => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 
+const initialScoreState = {score: 0};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'inc':
+            return {score: state.score + 1};
+        case 'reset':
+            return {score: 0};
+        default:
+            throw new Error();
+    }
+}
 export const Deck = ({testMode, cardData}) => {
+    const [score, updateScore] = useReducer(reducer, initialScoreState);
+
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
     const [props, set] = useSprings(numberOfCards, (i) => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
     // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
@@ -36,6 +50,15 @@ export const Deck = ({testMode, cardData}) => {
 
     const cardWasSwiped = (index, dir, correctSide) => {
         const wasCorrect = dir === correctSide
+        wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'inc'})
+        // wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'reset'})
+        console.log(score)
+
+        if (score % 5 === 0) {
+            navigator.vibrate([30])
+            console.log(score)
+        }
+
         const classFlashName = wasCorrect ? "correct-flash" : "incorrect-flash"
         document.getElementById("root").classList.add(classFlashName)
         setTimeout(() => document.getElementById("root").classList.remove(classFlashName), 300)
