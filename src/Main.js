@@ -12,6 +12,10 @@ export const Main = () => {
         {
             id: "furigana-to-kanji",
             title: "いく ➡ 行く",
+        },
+        {
+            id: "english-to-kanji",
+            title: "'To Go' ➡ 行く",
         }
     ]
 

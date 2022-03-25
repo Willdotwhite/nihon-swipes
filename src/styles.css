@@ -17,7 +17,7 @@ body {
 }
 
 #root {
-  background: #23395d;
+  background: #466b7f;
   position: fixed;
   overflow: hidden;
   width: 100%;
@@ -37,7 +37,7 @@ body {
 }
 
 #root > div > div {
-  background-color: #152238;
+  background-color: #263349;
   background-size: auto 85%;
   background-repeat: no-repeat;
   background-position: center center;
@@ -47,7 +47,7 @@ body {
   max-height: 570px;
   will-change: transform;
   border-radius: 10px;
-  box-shadow: 0 12.5px 175px -10px rgba(10, 10, 33, 0.5), 0 10px 10px -10px rgba(40, 40, 63, 0.3);
+  box-shadow: 0 12.5px 175px -10px rgba(20, 20, 43, 0.4), 0 10px 10px -10px rgba(60, 60, 83, 0.1);
 }
 
 /**** Menu styling ****/
@@ -58,8 +58,9 @@ body {
 }
 
 .test-mode-picker > button {
-  margin: 0 20px;
-  padding: 10px 30px;
+  margin: 0 12px;
+  padding: 12px 12px;
+  font-size: 0.65rem;
 }
 
 /**** Card-specific styling ****/
