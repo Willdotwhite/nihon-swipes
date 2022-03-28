@@ -70,7 +70,18 @@ export const Deck = ({testMode, cardData}) => {
         const correctSide = Math.round(Math.random() * 100) % 2 === 0 ? "left" : "right"
         const card = cardData[randomInt]
 
-        const randomCard = cardData[randomInt + 1 >= cardData.length ? 0 : randomInt + 1]
+        const validCardOptions = cardData
+            // Don't give correct answer as the random incorrect option
+            .filter(c => c.meaning !== card.meaning)
+            // If comparing furigana to kanji, ensure the last (normally - always?) hirigana characters match
+            .filter(c => testMode.id !== "furigana-to-kanji" || c.furigana.slice(-1) === card.furigana.slice(-1))
+
+        //  Short circuit _some_ nonsense, no idea what
+        if (validCardOptions.length === 0) {
+            return (<></>)
+        }
+
+        const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
 
         return (
             <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
