@@ -65,14 +65,17 @@ body {
   z-index: 200;
 }
 
-.player-menu > button {
-  margin: 0 12px;
-  padding: 12px 12px;
-  font-size: 0.65rem;
+button {
 
   border-radius: 6px;
   border-color: #d4af37;
   background-color: #d4af37;
+}
+
+.player-menu > button {
+  margin: 0 12px;
+  padding: 12px 12px;
+  font-size: 0.65rem;
 }
 
 /**** Card-specific styling ****/
@@ -103,4 +106,43 @@ body {
 .card .card-option {
   font-size: 1.25rem;
   max-width: 50%;
+}
+
+.options-menu {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: no-content; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.options-menu-content {
+  background-color: #fefefe;
+  margin: 35% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  height: 75vh!important;
+  width: 80%; /* Could be more or less, depending on screen size */
+  vertical-align: middle;
+}
+
+.options-menu-content > button {
+  width: 100%;
+  padding: 18px 18px;
+  font-size: 0.85rem;
+}
+
+
+.u-colour-gold {
+  color: #d4af37;
+}
+
+svg {
+  fill: #d4af37;
+  stroke: #d4af37;
 }

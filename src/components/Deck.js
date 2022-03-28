@@ -21,7 +21,7 @@ function reducer(state, action) {
             throw new Error();
     }
 }
-export const Deck = ({testMode, cardData}) => {
+export const Deck = ({testMode, cardData, showRomaji}) => {
     const [score, updateScore] = useReducer(reducer, initialScoreState);
 
     const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
@@ -85,7 +85,7 @@ export const Deck = ({testMode, cardData}) => {
 
         return (
             <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-                <Card testMode={testMode} card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, correctSide)} rotation={rot} scale={scale} />
+                <Card testMode={testMode} card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, correctSide)} rotation={rot} scale={scale} showRomaji={showRomaji} />
             </animated.div>
         )
     })

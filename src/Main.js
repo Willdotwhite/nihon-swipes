@@ -6,6 +6,7 @@ import { WordTypePicker } from "./components/WordTypePicker";
 import { default as adjectives } from "./cards/adjectives";
 import { default as verbs } from "./cards/verbs";
 import {CardItem} from "./cards/CardItem";
+import {OptionsMenu} from "./components/OptionsMenu";
 
 
 export const Main = () => {
@@ -47,6 +48,10 @@ export const Main = () => {
     const [testMode, setTestMode] = useState(testModes[0])
     const [wordType, setWordType] = useState(wordTypes[0])
 
+    const [optionsVisible, toggleOptionsBar] = useState(false)
+    const [showRomaji, toggleRomaji] = useState(true)
+
+
     const cardData = testMode.kanjiRequired
         ? words[wordType.id].filter(word => word.hasKanji())
         : words[wordType.id];
@@ -54,8 +59,9 @@ export const Main = () => {
     return (
         <>
             <TestModePicker testModes={testModes} setTestMode={setTestMode} />
-            <Deck testMode={testMode} cardData={cardData} />
-            <WordTypePicker wordTypes={wordTypes} setWordType={setWordType} />
+            <Deck testMode={testMode} cardData={cardData} showRomaji={showRomaji} />
+            <WordTypePicker wordTypes={wordTypes} setWordType={setWordType} toggleOptionsBar={() => toggleOptionsBar(optionsVisible => !optionsVisible)} />
+            <OptionsMenu isVisible={optionsVisible} showRomaji={showRomaji} toggleRomaji={toggleRomaji} />
         </>
     )
 }
