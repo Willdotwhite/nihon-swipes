@@ -1,7 +1,8 @@
 import React, {useReducer, useState} from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import { Card } from "./Card";
+import { getBigNumber } from "./GetBigNumber";
+import { AnimatedCard } from "./AnimatedCard";
 
 const numberOfCards = 10
 
@@ -21,6 +22,7 @@ function reducer(state, action) {
             throw new Error();
     }
 }
+
 export const Deck = ({testMode, cardData, showRomaji}) => {
     const [score, updateScore] = useReducer(reducer, initialScoreState);
 
@@ -67,7 +69,7 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return props.map(({ x, y, rot, scale }, i) => {
         const randomInt = Math.floor(Math.random() * cardData.length)
-        const correctSide = Math.round(Math.random() * 100) % 2 === 0 ? "left" : "right"
+        const correctSide = getBigNumber() % 2 === 0 ? "left" : "right"
         const card = cardData[randomInt]
 
         const validCardOptions = cardData
@@ -84,9 +86,9 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
         const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
 
         return (
-            <animated.div key={i} style={{ transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-                <Card testMode={testMode} card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, card, correctSide)} rotation={rot} scale={scale} showRomaji={showRomaji} />
-            </animated.div>
+            <AnimatedCard key={i} i={i} x={x} y={y} prop2={(x, y) => `translate3d(${x}px,${y}px,0)`} testMode={testMode}
+                          card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, card, correctSide)}
+                          rotation={rot} scale={scale} showRomaji={showRomaji}/>
         )
     })
 }

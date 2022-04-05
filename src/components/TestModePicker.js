@@ -1,8 +1,10 @@
+import { getBigNumber } from "./GetBigNumber";
+
 export const TestModePicker = ({testModes, setTestMode}) => {
     return (
         <>
             <div className="player-menu">
-                {testModes.map(mode => (<button onClick={() => setTestMode(mode)}>{mode.title}</button>))}
+                {testModes.map(mode => (<button key={getBigNumber()} onClick={() => setTestMode(mode)}>{mode.title}</button>))}
             </div>
         </>
     )

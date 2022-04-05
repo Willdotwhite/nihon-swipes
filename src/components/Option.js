@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Option = ({side, text}) => {
 
-    const styles = {position: "fixed", margin: "20px", "text-align": side}
+    const styles = {position: "fixed", margin: "20px", textAlign: side}
     styles[side] = "0";
 
     return (
