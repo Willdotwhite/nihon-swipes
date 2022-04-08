@@ -10,7 +10,7 @@ const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSide, showRomaji, onSwiped, onAllCardsSwiped}) => {
+export const AnimatedCard = ({cardNumber, testMode, wordType, card, randomCard, correctSide, showRomaji, onSwiped, onAllCardsSwiped}) => {
     // Create the react-spring object that animated the divs in this component
     const [springProps, set] = useSprings(1, () => ({ ...to(cardNumber), from: from(cardNumber) }))
     const cardTransform = springProps[0]
@@ -44,6 +44,7 @@ export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSid
             <animated.div {...bind(card, correctSide)} style={{ transform: interpolate([cardTransform.rot, cardTransform.scale], trans) }}>
                 <Card
                     testMode={testMode}
+                    wordType={wordType}
                     card={card}
                     randomCard={randomCard}
                     correctSide={correctSide}

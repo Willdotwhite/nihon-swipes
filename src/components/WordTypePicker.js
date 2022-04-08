@@ -1,10 +1,10 @@
 import { getBigNumber } from "../helpers/GetBigNumber";
 
-export const WordTypePicker = ({wordTypes, setWordType, toggleOptionsBar}) => {
+export const WordTypePicker = ({wordTypes, wordType, setWordType, toggleOptionsBar}) => {
     return (
         <>
             <div className="player-menu" style={{bottom: 0}}>
-                {wordTypes.map(mode => (<button key={getBigNumber()} onClick={() => setWordType(mode)}>{mode.title}</button>))}
+                {wordTypes.map(mode => (<button key={getBigNumber()} disabled={wordType.id === mode.id}  onClick={() => setWordType(mode)}>{mode.title}</button>))}
 
                 {/* Options menu action also lives here */}
                 <p className="u-colour-gold" onClick={toggleOptionsBar} style={{width: 64, textAlign: "center"}}>
