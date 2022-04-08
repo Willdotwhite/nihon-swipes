@@ -7,6 +7,9 @@ import {useDrag} from "react-use-gesture";
 const to = (i) => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
 const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 
+// This is being used down there in the view, it interpolates rotation and scale into a css transform
+const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+
 export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSide, showRomaji, onSwiped}) => {
     const [springProps, set] = useSprings(1, () => ({ ...to(cardNumber), from: from(cardNumber) })) // Create a bunch of springs using the helpers above
     const cardTransform = springProps[0]
@@ -37,16 +40,15 @@ export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSid
     return (
         <animated.div key={cardNumber}
                       style={{ transform: interpolate([cardTransform.x, cardTransform.y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-            <Card
-                testMode={testMode}
-                card={card}
-                randomCard={randomCard}
-                correctSide={correctSide}
-                handler={bind(card, correctSide)}
-                rotation={cardTransform.rot}
-                scale={cardTransform.scale}
-                showRomaji={showRomaji}
-            />
+            <animated.div {...bind(card, correctSide)} style={{ transform: interpolate([cardTransform.rot, cardTransform.scale], trans) }}>
+                <Card
+                    testMode={testMode}
+                    card={card}
+                    randomCard={randomCard}
+                    correctSide={correctSide}
+                    showRomaji={showRomaji}
+                />
+            </animated.div>
         </animated.div>
     )
 }
