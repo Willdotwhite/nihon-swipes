@@ -42,7 +42,11 @@ function drawCards(testMode, wordType) {
             // Don't give correct answer as the random incorrect option
             .filter(c => c.meaning !== card.meaning)
             // If comparing furigana to kanji, ensure the last (normally - always?) hirigana characters match
-            .filter(c => testMode.id !== "furigana-to-kanji" || endingCharsThatShouldntShowInF2K.includes(c.furigana.slice(-1)) || c.furigana.slice(-1) === card.furigana.slice(-1))
+            .filter(c => testMode.id !== "furigana-to-kanji" || !endingCharsThatShouldntShowInF2K.includes(c.furigana.slice(-1)) || c.furigana.slice(-1) === card.furigana.slice(-1))
+
+        if (validCardOptions.length === 0) {
+            console.log("Run out of valid cards!", card, card.furigana.slice(-1), randomInt, cardData, validCardOptions)
+        }
 
         const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
         cards.push({idx: i, correct: card, incorrect: randomCard, side: correctSide})
