@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 import { Deck } from "./components/Deck";
-import { TestModePicker } from "./components/TestModePicker";
-import { WordTypePicker } from "./components/WordTypePicker";
+import {TestModePicker, TestModeStorageKey} from "./components/TestModePicker";
+import {WordTypePicker, WordTypeStorageKey} from "./components/WordTypePicker";
 
 import { default as testModes } from "./helpers/TestModes";
 import { default as wordTypes } from "./helpers/WordTypes";
-import {OptionsMenu} from "./components/OptionsMenu";
+import {OptionsMenu, RomajiVisibilityStorageKey} from "./components/OptionsMenu";
 
 
 export const Main = () => {
-    const [testMode, setTestMode] = useState(testModes[0])
-    const [wordType, setWordType] = useState(wordTypes[0])
+    const startingTestModeId = localStorage.getItem(TestModeStorageKey) || testModes[0].id
+    const [testMode, setTestMode] = useState(testModes.filter(mode => mode.id === startingTestModeId)[0])
+
+    const startingWordTypeId = localStorage.getItem(WordTypeStorageKey) || wordTypes[0].id
+    const [wordType, setWordType] = useState(wordTypes.filter(types => types.id === startingWordTypeId)[0])
 
     const [optionsVisible, toggleOptionsBar] = useState(false)
-    const [showRomaji, toggleRomaji] = useState(true)
+
+    const [showRomaji, toggleRomaji] = useState(localStorage.getItem(RomajiVisibilityStorageKey) || false)
 
     return (
         <>

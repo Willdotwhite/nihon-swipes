@@ -1,10 +1,17 @@
 import { getBigNumber } from "../helpers/GetBigNumber";
 
+export const WordTypeStorageKey = "wordType"
+
 export const WordTypePicker = ({wordTypes, wordType, setWordType, toggleOptionsBar}) => {
+    const updateWordType = (mode) => {
+        localStorage.setItem(WordTypeStorageKey, mode.id)
+        setWordType(mode)
+    }
+
     return (
         <>
             <div className="player-menu" style={{bottom: 0}}>
-                {wordTypes.map(mode => (<button key={getBigNumber()} disabled={wordType.id === mode.id}  onClick={() => setWordType(mode)}>{mode.title}</button>))}
+                {wordTypes.map(mode => (<button key={getBigNumber()} disabled={wordType.id === mode.id}  onClick={() => updateWordType(mode)}>{mode.title}</button>))}
 
                 {/* Options menu action also lives here */}
                 <p className="u-colour-gold" onClick={toggleOptionsBar} style={{width: 64, textAlign: "center"}}>
