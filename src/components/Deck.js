@@ -35,11 +35,14 @@ function drawCards(testMode, wordType) {
         const correctSide = getBigNumber() % 2 === 0 ? "left" : "right"
         const card = cardData[randomInt]
 
+        // When going for 'furigana-to-kanji', don't use words where no matching words can be found
+        const endingCharsThatShouldntShowInF2K = ["ま", "ろ", "や", "ず", "た", "め", "ぱ", "ぬ"]
+
         const validCardOptions = cardData
             // Don't give correct answer as the random incorrect option
             .filter(c => c.meaning !== card.meaning)
             // If comparing furigana to kanji, ensure the last (normally - always?) hirigana characters match
-            .filter(c => testMode.id !== "furigana-to-kanji" || c.furigana.slice(-1) === card.furigana.slice(-1))
+            .filter(c => testMode.id !== "furigana-to-kanji" || endingCharsThatShouldntShowInF2K.includes(c.furigana.slice(-1)) || c.furigana.slice(-1) === card.furigana.slice(-1))
 
         const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
         cards.push({idx: i, correct: card, incorrect: randomCard, side: correctSide})
