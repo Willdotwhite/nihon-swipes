@@ -1,8 +1,9 @@
 import { getBigNumber } from "../helpers/GetBigNumber";
+import { default as testModes } from "../helpers/TestModes";
 
 export const TestModeStorageKey = "testMode"
 
-export const TestModePicker = ({testModes, testMode, setTestMode}) => {
+export const TestModePicker = ({testMode, setTestMode}) => {
     const updateTestMode = (mode) => {
         localStorage.setItem(TestModeStorageKey, mode.id)
         setTestMode(mode)

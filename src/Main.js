@@ -21,9 +21,9 @@ export const Main = () => {
 
     return (
         <>
-            <TestModePicker testModes={testModes} testMode={testMode} setTestMode={setTestMode} />
+            <TestModePicker testMode={testMode} setTestMode={setTestMode} />
             <Deck testMode={testMode} wordType={wordType} showRomaji={showRomaji} />
-            <WordTypePicker wordTypes={wordTypes} wordType={wordType} setWordType={setWordType} toggleOptionsBar={() => toggleOptionsBar(optionsVisible => !optionsVisible)} />
+            <WordTypePicker wordType={wordType} setWordType={setWordType} toggleOptionsBar={() => toggleOptionsBar(optionsVisible => !optionsVisible)} />
             <OptionsMenu isVisible={optionsVisible} showRomaji={showRomaji} toggleRomaji={toggleRomaji} />
         </>
     )

@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react'
+import React, {useLayoutEffect, useReducer, useState} from 'react'
 import {getBigNumber} from "../helpers/GetBigNumber";
 import {AnimatedCard} from "./AnimatedCard";
 import {CardItem} from "../cards/CardItem";
@@ -57,7 +57,7 @@ export const Deck = ({testMode, wordType, showRomaji}) => {
     const [swipedCards] = useState([])
     const [onAllCardsSwiped, triggerOnAllCardsSwiped] = useState(() => {})
 
-    useEffect(() => setCards(drawCards(testMode, wordType)), [testMode, wordType])
+    useLayoutEffect(() => setCards(drawCards(testMode, wordType)), [testMode, wordType])
 
     const cardWasSwiped = (card, dir, correctSide) => {
         const wasCorrect = dir === correctSide

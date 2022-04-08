@@ -1,8 +1,9 @@
 import { getBigNumber } from "../helpers/GetBigNumber";
+import { default as wordTypes } from "../helpers/WordTypes";
 
 export const WordTypeStorageKey = "wordType"
 
-export const WordTypePicker = ({wordTypes, wordType, setWordType, toggleOptionsBar}) => {
+export const WordTypePicker = ({wordType, setWordType, toggleOptionsBar}) => {
     const updateWordType = (mode) => {
         localStorage.setItem(WordTypeStorageKey, mode.id)
         setWordType(mode)
