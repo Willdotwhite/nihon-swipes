@@ -1,14 +1,6 @@
 import React, {useReducer, useState} from 'react'
-import { useSprings, animated, interpolate } from 'react-spring'
-import { useDrag } from 'react-use-gesture'
-import { getBigNumber } from "../helpers/GetBigNumber";
-import { AnimatedCard } from "./AnimatedCard";
-
-const numberOfCards = 10
-
-// These two are just helpers, they curate spring data, values that are later being interpolated into css
-const to = (i) => ({ x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100 })
-const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
+import {getBigNumber} from "../helpers/GetBigNumber";
+import {AnimatedCard} from "./AnimatedCard";
 
 const initialScoreState = {score: 0};
 
@@ -23,51 +15,10 @@ function reducer(state, action) {
     }
 }
 
-export const Deck = ({testMode, cardData, showRomaji}) => {
-    const [score, updateScore] = useReducer(reducer, initialScoreState);
+function drawCards(cardData, testMode) {
+    let cards = []
 
-    const [cards] = useState(() => new Set()) // The set flags all the cards that are flicked out
-    const [props, set] = useSprings(numberOfCards, (i) => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
-    // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
-    const bind = useDrag(({ args: [index, card, correctSide], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-        const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
-        const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
-
-        // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-        if (!down && trigger) {
-            cards.add(card)
-            cardWasSwiped(card, dir === -1 ? "left" : "right", correctSide)
-        }
-
-        set((i) => {
-            if (index !== i) return // We're only interested in changing spring-data for the current spring
-            const isGone = cards.has(card)
-            const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-            const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
-            const scale = down ? 1.1 : 1 // Active cards lift up a bit
-            return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
-        })
-        if (!down && cards.size === numberOfCards) setTimeout(() => cards.clear() || set((i) => to(i)), 600)
-    })
-
-    const cardWasSwiped = (card, dir, correctSide) => {
-        const wasCorrect = dir === correctSide
-        wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'inc'})
-        // wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'reset'})
-        console.log(score)
-
-        if (score.score % 5 === 0) {
-            window.navigator.vibrate(50)
-            console.log(score)
-        }
-
-        const classFlashName = wasCorrect ? "correct-flash" : "incorrect-flash"
-        document.getElementById("root").classList.add(classFlashName)
-        setTimeout(() => document.getElementById("root").classList.remove(classFlashName), 300)
-    }
-
-    // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
-    return props.map(({ x, y, rot, scale }, i) => {
+    for (let i = 0; i < 10; i++) {
         const randomInt = Math.floor(Math.random() * cardData.length)
         const correctSide = getBigNumber() % 2 === 0 ? "left" : "right"
         const card = cardData[randomInt]
@@ -77,18 +28,53 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
             .filter(c => c.meaning !== card.meaning)
             // If comparing furigana to kanji, ensure the last (normally - always?) hirigana characters match
             .filter(c => testMode.id !== "furigana-to-kanji" || c.furigana.slice(-1) === card.furigana.slice(-1))
-
-        //  Short circuit _some_ nonsense, no idea what
-        if (validCardOptions.length === 0) {
-            return (<></>)
-        }
+        //
+        // //  Short circuit _some_ nonsense, no idea what
+        // if (validCardOptions.length === 0) {
+        //     return (<></>)
+        // }
 
         const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
+        cards.push({idx: i, correct: card, incorrect: randomCard, side: correctSide})
+    }
 
-        return (
-            <AnimatedCard key={i} i={i} x={x} y={y} prop2={(x, y) => `translate3d(${x}px,${y}px,0)`} testMode={testMode}
-                          card={card} randomCard={randomCard} correctSide={correctSide} handler={bind(i, card, correctSide)}
-                          rotation={rot} scale={scale} showRomaji={showRomaji}/>
-        )
-    })
+    return cards
+}
+
+export const Deck = ({testMode, cardData, showRomaji}) => {
+    const [score, updateScore] = useReducer(reducer, initialScoreState);
+
+    const [cards] = useState(drawCards(cardData, testMode)) // The set flags all the cards that are flicked out
+    // if (cards.length === 0) setCards(drawCards());
+
+
+    const cardWasSwiped = (card, dir, correctSide) => {
+        const wasCorrect = dir === correctSide
+        wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'reset'})
+
+        console.log(wasCorrect, card, dir, correctSide, score)
+
+        if (score.score % 5 === 0) {
+            window.navigator.vibrate(50)
+        }
+
+        // FIXME: Reactify this
+        const classFlashName = wasCorrect ? "correct-flash" : "incorrect-flash"
+        document.getElementById("root").classList.add(classFlashName)
+        setTimeout(() => document.getElementById("root").classList.remove(classFlashName), 300)
+    }
+
+    // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
+    return cards.map(i =>
+        <AnimatedCard
+            key={i.idx}
+            cardNumber={i.idx}
+            testMode={testMode}
+            card={i.correct}
+            randomCard={i.incorrect}
+            correctSide={i.side}
+            showRomaji={showRomaji}
+            onSwiped={cardWasSwiped}
+        />
+    )
 }
