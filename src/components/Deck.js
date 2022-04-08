@@ -44,8 +44,6 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
         const wasCorrect = dir === correctSide
         wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'reset'})
 
-        console.log(wasCorrect, card, dir, correctSide, score)
-
         if (score.score % 5 === 0) {
             window.navigator.vibrate(50)
         }

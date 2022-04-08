@@ -1,5 +1,4 @@
 export const OptionsMenu = ({isVisible, showRomaji, toggleRomaji}) => {
-    console.log(isVisible)
     if (!isVisible) {
         return (<></>)
     }
