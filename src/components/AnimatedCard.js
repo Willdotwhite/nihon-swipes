@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {animated, interpolate, useSprings} from "react-spring";
 import { Card } from "./Card";
 import {useDrag} from "react-use-gesture";
@@ -10,7 +10,7 @@ const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSide, showRomaji, onSwiped}) => {
+export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSide, showRomaji, onSwiped, onAllCardsSwiped}) => {
     // Create the react-spring object that animated the divs in this component
     const [springProps, set] = useSprings(1, () => ({ ...to(cardNumber), from: from(cardNumber) }))
     const cardTransform = springProps[0]
@@ -34,6 +34,9 @@ export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSid
             return { x, rot, scale, config: { friction: 50, tension: down ? 800 : hasBeenSwiped ? 200 : 500 } }
         })
     })
+
+    useEffect(() => onAllCardsSwiped && resetPosition(), [onAllCardsSwiped])
+    const resetPosition = () => setTimeout(() => set(() => to(cardNumber)), 600)
 
     return (
         <animated.div key={cardNumber}

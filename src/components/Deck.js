@@ -38,7 +38,9 @@ function drawCards(cardData, testMode) {
 
 export const Deck = ({testMode, cardData, showRomaji}) => {
     const [score, updateScore] = useReducer(reducer, initialScoreState);
-    const [cards] = useState(drawCards(cardData, testMode))
+    const [cards, setCards] = useState(drawCards(cardData, testMode))
+    const [swipedCards] = useState([])
+    const [onAllCardsSwiped, triggerOnAllCardsSwiped] = useState(() => {})
 
     const cardWasSwiped = (card, dir, correctSide) => {
         const wasCorrect = dir === correctSide
@@ -52,6 +54,17 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
         const classFlashName = wasCorrect ? "correct-flash" : "incorrect-flash"
         document.getElementById("root").classList.add(classFlashName)
         setTimeout(() => document.getElementById("root").classList.remove(classFlashName), 300)
+
+        swipedCards.push(card)
+
+        // If all cards swiped
+        if (cards.every(item => swipedCards.includes(item.correct))) {
+            setCards(drawCards(cardData, testMode))
+
+            // Trigger all AnimatedCards to reset position; leave enough time for message to propagate before resetting
+            triggerOnAllCardsSwiped(true)
+            setTimeout(() => triggerOnAllCardsSwiped(false), 250)
+        }
     }
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
@@ -65,6 +78,7 @@ export const Deck = ({testMode, cardData, showRomaji}) => {
             correctSide={i.side}
             showRomaji={showRomaji}
             onSwiped={cardWasSwiped}
+            onAllCardsSwiped={onAllCardsSwiped}
         />
     )
 }
