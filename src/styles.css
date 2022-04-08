@@ -92,14 +92,13 @@ button {
 .card .card-main {
   width: 100%;
   text-align: center;
-  font-size: 4rem;
-  margin-top: 0;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 .card .card-subtitle {
   width: 100%;
   text-align: center;
-  font-size: 1.5rem;
   margin-bottom: 0;
 }
 

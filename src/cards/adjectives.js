@@ -85,7 +85,7 @@ export default [
     {kanji: "必要", furigana: "ひつよう", romaji: "hitsuyou", meaning: "necessary"},
     {kanji: "-", furigana: "まじめ", romaji: "majime", meaning: "serious, earnest"},
     {kanji: "真直ぐ", furigana: "まっすぐ", romaji: "massugu", meaning: "straight"},
-    {kanji: "無理", furigana: "むり", romaji: "muri", meaning: "unreasonnable"},
+    {kanji: "無理", furigana: "むり", romaji: "muri", meaning: "unreasonable"},
     {kanji: "立派", furigana: "りっぱ", romaji: "rippa", meaning: "excellent, splendid, fine"},
 ];
 
