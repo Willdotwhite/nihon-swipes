@@ -40,8 +40,8 @@ export const AnimatedCard = ({cardNumber, testMode, wordType, card, randomCard, 
 
     return (
         <animated.div key={cardNumber}
-                      style={{ transform: interpolate([cardTransform.x, cardTransform.y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
-            <animated.div {...bind(card, correctSide)} style={{ transform: interpolate([cardTransform.rot, cardTransform.scale], trans) }}>
+                      style={{ willChange: "transform", transform: interpolate([cardTransform.x, cardTransform.y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}>
+            <animated.div {...bind(card, correctSide)} style={{ willChange: "transform", transform: interpolate([cardTransform.rot, cardTransform.scale], trans) }}>
                 <Card
                     testMode={testMode}
                     card={card}
