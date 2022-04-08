@@ -11,29 +11,27 @@ const from = (i) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 const trans = (r, s) => `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 export const AnimatedCard = ({cardNumber, testMode, card, randomCard, correctSide, showRomaji, onSwiped}) => {
-    const [springProps, set] = useSprings(1, () => ({ ...to(cardNumber), from: from(cardNumber) })) // Create a bunch of springs using the helpers above
+    // Create the react-spring object that animated the divs in this component
+    const [springProps, set] = useSprings(1, () => ({ ...to(cardNumber), from: from(cardNumber) }))
     const cardTransform = springProps[0]
 
-    const [isSwiped, setIsSwiped] = useState(false)
-
-    // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
+    // Create a gesture handler for dragging a card
     const bind = useDrag(({ args: [card, correctSide], down, delta: [xDelta], _, direction: [xDir], velocity }) => {
         const trigger = velocity > 0.2 // If you flick hard enough it should trigger the card to fly out
         const dir = xDir < 0 ? -1 : 1 // Direction should either point left or right
+        let hasBeenSwiped = false
 
         // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
-        if (!down && trigger && !isSwiped) {
-            setIsSwiped(true)
-
-            // Uncommenting this line deals a new hand of cards!
+        if (!down && trigger) {
+            hasBeenSwiped = true
             onSwiped(card, dir === -1 ? "left" : "right", correctSide)
         }
 
         set(() => {
-            const x = isSwiped ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
-            const rot = xDelta / 100 + (isSwiped ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
+            const x = hasBeenSwiped ? (200 + window.innerWidth) * dir : down ? xDelta : 0 // When a card is gone it flys out left or right, otherwise goes back to zero
+            const rot = xDelta / 100 + (hasBeenSwiped ? dir * 10 * velocity : 0) // How much the card tilts, flicking it harder makes it rotate faster
             const scale = down ? 1.1 : 1 // Active cards lift up a bit
-            return { x, rot, scale, config: { friction: 50, tension: down ? 800 : isSwiped ? 200 : 500 } }
+            return { x, rot, scale, config: { friction: 50, tension: down ? 800 : hasBeenSwiped ? 200 : 500 } }
         })
     })
 

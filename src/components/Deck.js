@@ -28,11 +28,6 @@ function drawCards(cardData, testMode) {
             .filter(c => c.meaning !== card.meaning)
             // If comparing furigana to kanji, ensure the last (normally - always?) hirigana characters match
             .filter(c => testMode.id !== "furigana-to-kanji" || c.furigana.slice(-1) === card.furigana.slice(-1))
-        //
-        // //  Short circuit _some_ nonsense, no idea what
-        // if (validCardOptions.length === 0) {
-        //     return (<></>)
-        // }
 
         const randomCard = validCardOptions[Math.floor(Math.random() * validCardOptions.length)]
         cards.push({idx: i, correct: card, incorrect: randomCard, side: correctSide})
@@ -43,10 +38,7 @@ function drawCards(cardData, testMode) {
 
 export const Deck = ({testMode, cardData, showRomaji}) => {
     const [score, updateScore] = useReducer(reducer, initialScoreState);
-
-    const [cards] = useState(drawCards(cardData, testMode)) // The set flags all the cards that are flicked out
-    // if (cards.length === 0) setCards(drawCards());
-
+    const [cards] = useState(drawCards(cardData, testMode))
 
     const cardWasSwiped = (card, dir, correctSide) => {
         const wasCorrect = dir === correctSide
