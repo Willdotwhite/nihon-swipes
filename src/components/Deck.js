@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 import {getBigNumber} from "../helpers/GetBigNumber";
 import {AnimatedCard} from "./AnimatedCard";
 import {CardItem} from "../cards/CardItem";
@@ -49,12 +49,12 @@ function drawCards(testMode, wordType) {
 }
 
 export const Deck = ({testMode, wordType, showRomaji}) => {
-    console.log(testMode, wordType)
-
     const [score, updateScore] = useReducer(reducer, initialScoreState);
-    const [cards, setCards] = useState(drawCards(testMode, wordType))
+    const [cards, setCards] = useState([])
     const [swipedCards] = useState([])
     const [onAllCardsSwiped, triggerOnAllCardsSwiped] = useState(() => {})
+
+    useEffect(() => setCards(drawCards(testMode, wordType)), [testMode, wordType])
 
     const cardWasSwiped = (card, dir, correctSide) => {
         const wasCorrect = dir === correctSide
@@ -80,8 +80,6 @@ export const Deck = ({testMode, wordType, showRomaji}) => {
             setTimeout(() => triggerOnAllCardsSwiped(false), 250)
         }
     }
-
-    console.log(cards)
 
     // Now we're just mapping the animated values to our view, that's it. Btw, this component only renders once. :-)
     return cards.map(i =>

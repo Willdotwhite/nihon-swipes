@@ -44,7 +44,6 @@ export const AnimatedCard = ({cardNumber, testMode, wordType, card, randomCard, 
             <animated.div {...bind(card, correctSide)} style={{ transform: interpolate([cardTransform.rot, cardTransform.scale], trans) }}>
                 <Card
                     testMode={testMode}
-                    wordType={wordType}
                     card={card}
                     randomCard={randomCard}
                     correctSide={correctSide}
