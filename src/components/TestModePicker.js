@@ -1,4 +1,4 @@
-import { getBigNumber } from "./GetBigNumber";
+import { getBigNumber } from "../helpers/GetBigNumber";
 
 export const TestModePicker = ({testModes, setTestMode}) => {
     return (

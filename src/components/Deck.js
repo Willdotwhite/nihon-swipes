@@ -1,7 +1,7 @@
 import React, {useReducer, useState} from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useDrag } from 'react-use-gesture'
-import { getBigNumber } from "./GetBigNumber";
+import { getBigNumber } from "../helpers/GetBigNumber";
 import { AnimatedCard } from "./AnimatedCard";
 
 const numberOfCards = 10

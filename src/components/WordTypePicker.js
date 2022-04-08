@@ -1,4 +1,4 @@
-import { getBigNumber } from "./GetBigNumber";
+import { getBigNumber } from "../helpers/GetBigNumber";
 
 export const WordTypePicker = ({wordTypes, setWordType, toggleOptionsBar}) => {
     return (
