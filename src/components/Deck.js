@@ -67,7 +67,7 @@ export const Deck = ({testMode, wordType, showRomaji}) => {
         const wasCorrect = dir === correctSide
         wasCorrect ? updateScore({type: 'inc'}) : updateScore({type: 'reset'})
 
-        if (score.score % 5 === 0) {
+        if (score.score > 0 && score.score % 5 === 0) {
             window.navigator.vibrate(50)
         }
 
