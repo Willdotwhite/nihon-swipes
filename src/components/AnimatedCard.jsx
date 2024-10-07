@@ -35,7 +35,9 @@ export const AnimatedCard = ({cardNumber, testMode, wordType, card, randomCard, 
         })
     })
 
-    useEffect(() => onAllCardsSwiped && resetPosition(), [onAllCardsSwiped])
+    useEffect(() => {
+        if (onAllCardsSwiped) resetPosition()
+    }, [onAllCardsSwiped])
     const resetPosition = () => setTimeout(() => set(() => to(cardNumber)), 600)
 
     return (
